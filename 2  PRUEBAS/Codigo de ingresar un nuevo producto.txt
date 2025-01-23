@@ -1,0 +1,54 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// Definimos un tamaño máximo para las cadenas.
+#define MAX_LENGTH 100
+
+typedef struct {
+    char codigo[MAX_LENGTH];
+    char descripcion[MAX_LENGTH];
+    int stock;
+    float precio;
+} Producto;
+
+int validar_campos(Producto p) {
+    // Verifica si los campos obligatorios están llenos
+    if (strlen(p.codigo) == 0 || strlen(p.descripcion) == 0 || p.stock <= 0 || p.precio <= 0.0) {
+        return 0; // Algún campo no está lleno correctamente
+    }
+    return 1; // Todos los campos están llenos correctamente
+}
+
+int main() {
+    Producto producto;
+
+    printf("Ingrese el código del producto: ");
+    fgets(producto.codigo, MAX_LENGTH, stdin);
+    producto.codigo[strcspn(producto.codigo, "\n")] = 0; // Elimina el salto de línea
+
+    printf("Ingrese la descripción del producto:" );
+    fgets(producto.descripcion, MAX_LENGTH, stdin);
+    producto.descripcion[strcspn(producto.descripcion, "\n")] = 0; // Elimina el salto de línea
+
+    printf("Ingrese el stock del producto: ");
+    if (scanf("%d", &producto.stock) != 1) {
+        printf("Error: Debe ingresar un valor numérico para el stock.\n");
+        return 1;
+    }
+
+    printf("Ingrese el precio del producto: ");
+    if (scanf("%f", &producto.precio) != 1) {
+        printf("Error: Debe ingresar un valor numérico para el precio.\n");
+        return 1;
+    }
+
+    // Validamos los campos
+    if (validar_campos(producto)) {
+        printf("Producto ingresado correctamente.\n");
+    } else {
+        printf("Error: Verifique que todos los campos estén llenos respectivamente. \n");
+    }
+
+    return 0;
+}
